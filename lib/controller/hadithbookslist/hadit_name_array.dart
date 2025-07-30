@@ -1,0 +1,22 @@
+final List<Map<String, dynamic>> hadithBooks = [
+  {"id": 1, "name": "Sahih al-Bukhari صحيح البخاري"},
+  {"id": 2, "name": "Sahih Muslim صحيح مسلم"},
+  {"id": 3, "name": "Sunan Abi Dawud سنن أبي داود"},
+  {"id": 4, "name": "Jami` at-Tirmidhi جامع الترمذي"},
+  {"id": 5, "name": "Sunan an-Nasa'i سنن النسائي"},
+  {"id": 6, "name": "Sunan Ibn Majah سنن ابن ماجه"},
+  {"id": 7, "name": "Muwatta Malik موطأ مالك"},
+  {"id": 8, "name": "Musnad Ahmad مسند أحمد"},
+  {"id": 9, "name": "Sunan ad-Darimi سنن الدارمي"},
+  {"id": 10, "name": "Riyad as-Salihin رياض الصالحين"},
+  {"id": 11, "name": "Shamail al-Muhammadiyah الشمائل المحمدية"},
+  {"id": 12, "name": "Bulugh al-Maram بلوغ المرام"},
+  {"id": 13, "name": "Al-Adab Al-Mufrad الأدب المفرد"},
+  {"id": 14, "name": "Mishkat al-Masabih مشكاة المصابيح"},
+  {"id": 15, "name": "The Forty Hadith of al-Imam an-Nawawi الأربعون النووية"},
+  {"id": 16, "name": "The Forty Hadith Qudsi الأربعون القدسية"},
+  {
+    "id": 17,
+    "name": "The Forty Hadith of Shah Waliullah أربعون الشاه ولي الله",
+  },
+];
