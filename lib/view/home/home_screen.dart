@@ -1,15 +1,119 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:namaz_timing/view/Hadith/select_hadith_screen.dart';
 import 'package:namaz_timing/view/quran/surah_listScreen.dart';
+import 'package:namaz_timing/view/screen.dart';
 
-class IslamicHomeScreen extends StatelessWidget {
+class IslamicHomeScreen extends StatefulWidget {
   const IslamicHomeScreen({super.key});
 
   @override
-  
+  State<IslamicHomeScreen> createState() => _IslamicHomeScreenState();
+}
+
+class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
+  Map<String, String> timings = {};
+  String currentPrayer = '';
+  String currentTime = '';
+  String nextPrayer = '';
+  String nextTime = '';
+  bool isLoading = false;
+  String city = '';
+  String country = '';
+  @override
+  void initState() {
+    super.initState();
+    fetchNamazTimings();
+  }
+
+  Future<void> fetchNamazTimings() async {
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          throw Exception('Location permission denied');
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        throw Exception(
+          'Location permission permanently denied. Please enable it from app settings.',
+        );
+      }
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      final url =
+          'https://api.aladhan.com/v1/timings?latitude=${position.latitude}&longitude=${position.longitude}&method=2';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(response.body);
+        final timingData = Map<String, String>.from(data['data']['timings']);
+
+        final now = TimeOfDay.now();
+        final nowMinutes = now.hour * 60 + now.minute;
+
+        final prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+
+        String? currPrayer;
+        String? currTime;
+        String? nextPray;
+        String? nextPrayTime;
+
+        for (int i = 0; i < prayerOrder.length; i++) {
+          final time = timingData[prayerOrder[i]]!;
+          final split = time.split(":");
+          final tHour = int.parse(split[0]);
+          final tMin = int.parse(split[1]);
+          final totalMin = tHour * 60 + tMin;
+
+          if (nowMinutes < totalMin) {
+            currPrayer = i == 0 ? prayerOrder.last : prayerOrder[i - 1];
+            currTime = i == 0
+                ? timingData[prayerOrder.last]
+                : timingData[prayerOrder[i - 1]];
+            nextPray = prayerOrder[i];
+            nextPrayTime = time;
+            break;
+          }
+        }
+
+        // If no next found (after Isha), loop to Fajr
+        if (currPrayer == null) {
+          currPrayer = prayerOrder.last;
+          currTime = timingData[prayerOrder.last];
+          nextPray = prayerOrder.first;
+          nextPrayTime = timingData[prayerOrder.first];
+        }
+
+        setState(() {
+          timings = timingData;
+          currentPrayer = currPrayer!;
+          currentTime = currTime!;
+          nextPrayer = nextPray!;
+          nextTime = nextPrayTime!;
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load namaz timings');
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$e'), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -73,45 +177,55 @@ class IslamicHomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // 🕌 Prayer Time Card
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xffF9C9B7),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Duhar',
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                            Text(
-                              '01:15 PM',
-                              style: GoogleFonts.lato(
-                                fontSize: 36,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF9C9B7),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      currentPrayer,
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                    Text(
+                                      currentTime,
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Next Pray: $nextPrayer\n$nextTime',
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Next Pray: Asr\n05:32 PM',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
+                              Image.asset(
+                                "assets/images/home/jama.png",
+                                height: 128,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      Image.asset("assets/images/home/jama.png", height: 128),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -155,7 +269,14 @@ class IslamicHomeScreen extends StatelessWidget {
                         _featureButton(
                           'Dua',
                           "assets/images/home/dua.png",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NamazTimeScreen(),
+                              ),
+                            );
+                          },
                         ),
                         _featureButton(
                           'Daily Verse',
