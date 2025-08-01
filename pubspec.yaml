@@ -42,6 +42,8 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   geocoding: ^4.0.0
   geolocator: ^14.0.2
+  intl: ^0.20.2
+  lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_test:

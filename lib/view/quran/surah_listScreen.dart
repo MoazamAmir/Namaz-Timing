@@ -22,7 +22,7 @@ class _SurahListScreenState extends State<SurahListScreen> {
     final double screenWidth = screenSize.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF7CCB8),
+      backgroundColor:  Colors.teal[800],
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
@@ -30,34 +30,46 @@ class _SurahListScreenState extends State<SurahListScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 🔙 Back and Title
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Image.asset(
-                      "assets/images/home/Vector.png",
-                      height: screenHeight * 0.025,
-                      width: screenWidth * 0.05,
-                    ),
+               Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Icon(Icons.arrow_back, color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Center(
+                        child: Text(
+                          "Quran",
+                          style: TextStyle(
+                            fontSize:20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: screenWidth * 0.30),
-                  Text(
-                    "Quran",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.065,
-                      color: const Color(0xFF515151),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+
               SizedBox(height: screenHeight * 0.02),
 
               // 📚 Selected Hadith Display Box
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 250, 181, 156),
+                  color:  Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: EdgeInsets.all(screenWidth * 0.02),
@@ -65,33 +77,31 @@ class _SurahListScreenState extends State<SurahListScreen> {
                   children: [
                     // Hadith Info
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Quran',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: screenWidth * 0.06,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: screenHeight * 0.04),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 100),
-                            child: Center(
-                              child: Text(
-                                selectedHadithName.replaceFirst('-', '\n'),
-                                style: TextStyle(
-                                  color: Color(0xFF515151),
-
-                                  fontSize: screenWidth * 0.06,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Quran',
+                              style: TextStyle(
+                                color: Colors.teal[800],
+                                fontSize: screenWidth * 0.06,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 20),
+                            Text(
+                              selectedHadithName.replaceFirst('-', '\n'),
+                              style: TextStyle(
+                              color: Colors.teal[800],
+                                                      
+                                fontSize: screenWidth * 0.06,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Image.asset(
@@ -164,29 +174,11 @@ class _SurahListScreenState extends State<SurahListScreen> {
                                           ),
                                           border: isSelected
                                               ? Border.all(
-                                                  color: const Color.fromARGB(
-                                                    255,
-                                                    250,
-                                                    181,
-                                                    156,
-                                                  ),
+                                                 color: Colors.teal[800]!,
                                                   width: 2,
                                                 )
                                               : null,
-                                          boxShadow: isSelected
-                                              ? [
-                                                  const BoxShadow(
-                                                    color: Color.fromARGB(
-                                                      255,
-                                                      250,
-                                                      181,
-                                                      156,
-                                                    ),
-                                                    blurRadius: 6,
-                                                    offset: Offset(0, 2),
-                                                  ),
-                                                ]
-                                              : [],
+                                         
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -202,14 +194,9 @@ class _SurahListScreenState extends State<SurahListScreen> {
                                               style: TextStyle(
                                                 fontSize: screenWidth * 0.06,
                                                 fontWeight: FontWeight.w500,
-                                                color: isSelected
-                                                    ? const Color.fromARGB(
-                                                        255,
-                                                        250,
-                                                        181,
-                                                        156,
-                                                      )
-                                                    : const Color(0xFF515151),
+                                                color: 
+                                                    Colors.teal[800]!
+                                                   
                                               ),
                                             ),
                                           ],

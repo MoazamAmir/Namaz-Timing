@@ -55,7 +55,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print(response.body);
+        print("body data${response.body}");
         final timingData = Map<String, String>.from(data['data']['timings']);
 
         final now = TimeOfDay.now();
@@ -122,12 +122,8 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
           // 🔶 Top Gradient Container
           Container(
             height: 450,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xffF7CCB8), Color(0xffFFE5D4)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+            decoration:  BoxDecoration(
+             color: Colors.teal[800]
             ),
             padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
             child: Column(
@@ -165,12 +161,12 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                 // 📍 Location
                 Text(
                   'Your Location',
-                  style: TextStyle(color: Colors.grey.shade600),
+                  style: TextStyle(  color: Colors.white,),
                 ),
                 const Text(
                   'Green Campus, Central university, Ganderbal',
                   style: TextStyle(
-                    color: Colors.teal,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -183,7 +179,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xffF9C9B7),
+                            color:  Colors.white,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           padding: const EdgeInsets.all(16),
@@ -195,23 +191,23 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                                   children: [
                                     Text(
                                       currentPrayer,
-                                      style: const TextStyle(
-                                        color: Colors.white70,
+                                      style:  TextStyle(
+                                         color: Colors.teal[800]
                                       ),
                                     ),
                                     Text(
                                       currentTime,
                                       style: TextStyle(
                                         fontSize: 36,
-                                        color: Colors.white,
+                                         color: Colors.teal[800],
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Next Pray: $nextPrayer\n$nextTime',
-                                      style: const TextStyle(
-                                        color: Colors.white70,
+                                      style:  TextStyle(
+                                         color: Colors.teal[800],
                                         fontSize: 12,
                                       ),
                                     ),
@@ -221,6 +217,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                               Image.asset(
                                 "assets/images/home/jama.png",
                                 height: 128,
+                                  color: Colors.teal[800]
                               ),
                             ],
                           ),

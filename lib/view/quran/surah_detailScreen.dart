@@ -17,40 +17,51 @@ class SurahDetailScreen extends StatelessWidget {
     final double screenWidth = screenSize.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF7CCB8),
+     backgroundColor:  Colors.teal[800],
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
           child: Column(
             children: [
               Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Image.asset(
-                      "assets/images/home/Vector.png",
-                      height: screenHeight * 0.025,
-                      width: screenWidth * 0.05,
-                    ),
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Icon(Icons.arrow_back, color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Center(
+                        child: Text(
+                          "Quran",
+                          style: TextStyle(
+                            fontSize:20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: screenWidth * 0.30),
-                  Text(
-                    "Quran",
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.065,
-                      color: const Color(0xFF515151),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: screenHeight * 0.02),
 
               // 📚 Surah Display Box
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 250, 181, 156),
+                  color:  Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: EdgeInsets.all(screenWidth * 0.02),
@@ -63,7 +74,7 @@ class SurahDetailScreen extends StatelessWidget {
                           Text(
                             "Sura ${surah.name ?? ""}",
                             style: TextStyle(
-                              color: Color(0xFF515151),
+                             color:   Colors.teal[800],
                               fontSize: screenWidth * 0.06,
                               fontWeight: FontWeight.bold,
                             ),
@@ -96,6 +107,7 @@ class SurahDetailScreen extends StatelessWidget {
                           child: FadeInAnimation(
                             child: Card(
                               elevation: 0,
+                              color: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -108,11 +120,12 @@ class SurahDetailScreen extends StatelessWidget {
                                       verse.text ?? '',
                                       style: TextStyle(
                                         fontSize: 20,
+                                         color:   Colors.teal[800],
                                         fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.right,
                                       textDirection: TextDirection
-                                          .rtl, // 👈 This makes the Arabic text start from right
+                                          .ltr, // 👈 This makes the Arabic text start from right
                                     ),
 
                                     SizedBox(height: 8),
@@ -128,12 +141,7 @@ class SurahDetailScreen extends StatelessWidget {
                                         IconButton(
                                           icon: Icon(
                                             Icons.copy,
-                                            color: const Color.fromARGB(
-                                              255,
-                                              250,
-                                              181,
-                                              156,
-                                            ),
+                                            color:   Colors.teal[800],
                                           ),
                                           onPressed: () {
                                             final fullText =
@@ -152,12 +160,7 @@ class SurahDetailScreen extends StatelessWidget {
                                         IconButton(
                                           icon: Icon(
                                             Icons.share,
-                                            color: const Color.fromARGB(
-                                              255,
-                                              250,
-                                              181,
-                                              156,
-                                            ),
+                                            color:   Colors.teal[800],
                                           ),
                                           onPressed: () {
                                             final fullText =

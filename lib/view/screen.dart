@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class NamazTimeScreen extends StatefulWidget {
@@ -115,66 +116,195 @@ class _NamazTimeScreenState extends State<NamazTimeScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Namaz Timings')),
+ @override
+Widget build(BuildContext context) {
+  final Size screenSize = MediaQuery.of(context).size;
+  final double screenHeight = screenSize.height;
+  final double screenWidth = screenSize.width;
+
+  return SafeArea(
+    child: Scaffold(
+      backgroundColor:  Colors.teal,
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ListView(
+          : SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Card(
-                    elevation: 4,
-                    child: ListTile(title: Text('City'), subtitle: Text(city)),
+                  SizedBox(height: screenHeight * 0.02),
+
+                  // AppBar Row
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Icon(Icons.arrow_back, color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(width: screenWidth * 0.2),
+                      Text(
+                        "Prayer Times",
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.06,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      title: Text('Country'),
-                      subtitle: Text(country),
+
+                  SizedBox(height: screenHeight * 0.03),
+
+                  // Location Info
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "$city, $country",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Timezone: $timezone',
+                          style: TextStyle(  color: Colors.white,),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Method: $methodName',
+                          style: TextStyle(  color: Colors.white,),
+                        ),
+                      ],
                     ),
                   ),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      title: Text('Hijri Date'),
-                      subtitle: Text(hijriDate),
+
+                  SizedBox(height: screenHeight * 0.03),
+
+                  // Dates
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          hijriDate,
+                          style: TextStyle(
+                            fontSize: 16,
+                             color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Text(
+                          gregorianDate,
+                          style: TextStyle(
+                            fontSize: 14,
+                             color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      title: Text('Gregorian Date'),
-                      subtitle: Text(gregorianDate),
+
+                  SizedBox(height: screenHeight * 0.04),
+
+                  // Prayer Times Container
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade300,
+                          blurRadius: 12,
+                          offset: Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            "Today's Prayer Timings",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.teal[700],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Divider(thickness: 1),
+                        SizedBox(height: 10),
+                        prayerTimeCard('Fajr', timings['Fajr'] ?? 'N/A'),
+                        prayerTimeCard('Dhuhr', timings['Dhuhr'] ?? 'N/A'),
+                        prayerTimeCard('Asr', timings['Asr'] ?? 'N/A'),
+                        prayerTimeCard('Maghrib', timings['Maghrib'] ?? 'N/A'),
+                        prayerTimeCard('Isha', timings['Isha'] ?? 'N/A'),
+                      ],
                     ),
                   ),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      title: Text('Timezone'),
-                      subtitle: Text(timezone),
-                    ),
-                  ),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      title: Text('Calculation Method'),
-                      subtitle: Text(methodName),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Prayer Timings',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  ...timings.entries
-                      .map((entry) => buildTile(entry.key, entry.value))
-                      .toList(),
+
+                  SizedBox(height: screenHeight * 0.04),
                 ],
               ),
             ),
-    );
-  }
+    ),
+  );
+}
+Widget prayerTimeCard(String title, String time) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 8),
+    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.shade300,
+          blurRadius: 10,
+          offset: Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+        Text(
+          time,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.teal[800],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 }
