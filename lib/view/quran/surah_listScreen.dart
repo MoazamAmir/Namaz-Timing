@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:namaz_timing/constant/appbar_screen.dart';
 import 'package:namaz_timing/controller/quran_controller.dart';
 import 'package:namaz_timing/view/quran/surah_detailScreen.dart';
 
@@ -30,38 +31,12 @@ class _SurahListScreenState extends State<SurahListScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 🔙 Back and Title
-               Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Get.back(),
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: Icon(Icons.arrow_back, color: Colors.black),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Center(
-                        child: Text(
-                          "Quran",
-                          style: TextStyle(
-                            fontSize:20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+               AppBarScreen(
+            title: "Hadith",
+            textColor: Colors.white,
+            iconColor: Colors.black,
+            backgroundColor: Colors.white,
+          ),
 
               SizedBox(height: screenHeight * 0.02),
 

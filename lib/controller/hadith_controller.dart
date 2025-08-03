@@ -1,44 +1,31 @@
-// import 'dart:convert';
-// import 'package:flutter/services.dart';
-// import 'package:get/get.dart';
-// import 'package:namaz_timing/models/hadith_model.dart';
+// controllers/hadith_controller.dart
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import '../../models/hadith_model.dart';
+import '../hadithbookslist/hadit_data_array.dart';
 
-// class HadithController extends GetxController {
-//   var hadithData = Rxn<Hadith>();
-//   var isLoading = true.obs;
+class HadithController extends GetxController {
+  final hadithsMap = <int, List<HadithElement>>{}.obs;
 
-//   @override
-//   void onInit() {
-//     loadHadithData();
-//     super.onInit();
-//   }
+  Future<void> loadHadiths(int selectedId) async {
+    // Check if already loaded
+    if (hadithsMap.containsKey(selectedId)) return;
 
-//   Future<void> loadHadithData() async {
-//     try {
-//       isLoading.value = true;
+    final combined = [...array1, ...array2];
+    final matchingFiles = combined.where((e) => e['id'] == selectedId).toList();
 
-//       final String jsonString = await rootBundle.loadString(
-//         'assets/images/bukhari.json',
-//       );
+    List<HadithElement> allHadiths = [];
 
-//       // Decode JSON
-//       final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    for (var file in matchingFiles) {
+      final String response = await rootBundle.loadString(file['path']);
+      final data = jsonDecode(response);
+      final hadith = Hadith.fromJson(data);
+      allHadiths.addAll(hadith.hadiths);
+    }
 
-//       // Print full JSON (as formatted string)
-//       print(
-//         "Full JSON Data:\n${const JsonEncoder.withIndent('  ').convert(jsonMap)}",
-//       );
+    hadithsMap[selectedId] = allHadiths;
+  }
 
-//       // Then assign to model
-//       hadithData.value = Hadith.fromJson(jsonMap);
-
-//       // Debug prints
-//       print("Loaded Hadith Count: ${hadithData.value?.hadiths.length}");
-//       print("First Hadith Arabic: ${hadithData.value?.hadiths.first.arabic}");
-//     } catch (e) {
-//       print("Error loading hadith data: $e");
-//     } finally {
-//       isLoading.value = false;
-//     }
-//   }
-// }
+  List<HadithElement> getHadiths(int id) => hadithsMap[id] ?? [];
+}
