@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:namaz_timing/view/Hadith/select_hadith_screen.dart';
+import 'package:namaz_timing/view/Voice/RecitersScreen.dart';
+import 'package:namaz_timing/view/community.dart';
+import 'package:namaz_timing/view/quran/mosquefinderScreen.dart' show MosqueFinderScreen;
 import 'package:namaz_timing/view/quran/surah_listScreen.dart';
 import 'package:namaz_timing/view/screen.dart';
 
@@ -116,12 +118,10 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        clipBehavior: Clip.none, // 👈 Add this to allow overflow (important)
+      body: Column(
         children: [
-          // 🔶 Top Gradient Container
           Container(
-            height: 450,
+            height: 400,
             decoration:  BoxDecoration(
              color: Colors.teal[800]
             ),
@@ -157,7 +157,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
-
+                    
                 // 📍 Location
                 Text(
                   'Your Location',
@@ -171,7 +171,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-
+                    
                 // 🕌 Prayer Time Card
                 isLoading
                     ? Center(child: CircularProgressIndicator())
@@ -226,85 +226,95 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
               ],
             ),
           ),
-
+          
           // ✅ Overlapping container (shown above top container)
           Positioned(
-            top: 370,
+            top: 0,
             left: 0,
             right: 0,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Material(
-                elevation: 8,
-                borderRadius: BorderRadius.circular(20),
+              child: Container(
+               
                 color: Colors.transparent, // 👈 Material background transparent
-                child: Container(
-                  height: 250,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(
-                      0.5,
-                    ), // 👈 semi-transparent background
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: GridView.count(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        _featureButton(
-                          'Hadith',
-                          "assets/images/home/man.png",
-                          onTap: () {
-                            Get.to(SelectHadithScreen());
-                          },
-                        ),
-                        _featureButton(
-                          'Dua',
-                          "assets/images/home/dua.png",
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NamazTimeScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                        _featureButton(
-                          'Daily Verse',
-                          "assets/images/home/quran.png",
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SurahListScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                        _featureButton(
-                          'Community',
-                          "assets/images/home/partners.png",
-                          onTap: () {},
-                        ),
-                        _featureButton(
-                          'Maps',
-                          "assets/images/home/map.png",
-                          onTap: () {},
-                        ),
-                        // _featureButton('More', Icons.more_horiz),
-                      ],
+                child: Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: GridView.count(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      _featureButton(
+                        'Hadith',
+                        "assets/images/home/man.png",
+                        onTap: () {
+                          Get.to(SelectHadithScreen());
+                        },
+                      ),
+                      _featureButton(
+                        'Prayer Times',
+                        "assets/images/home/dua.png",  
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NamazTimeScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _featureButton(
+                        'Daily Verse',
+                        "assets/images/home/quran.png",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SurahListScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      _featureButton(
+                      'Community',
+                      "assets/images/home/partners.png",
+                      onTap: () {
+          // Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //             builder: (context) => RecitersScreen(),
+          //           ),
+          // );
+                      },
                     ),
+                    
+                     
+                      _featureButton(
+                        'Maps',
+                        "assets/images/home/map.png",
+                       onTap: ()  {
+                Get.to(MosqueFinderScreen());
+                },
+                
+                      ),
+                      // _featureButton('More', Icons.more_horiz),
+                       _featureButton(
+                        'Voice',
+                        "assets/images/home/voice.png",
+                       onTap: ()  {
+                Get.to(RecitersScreen());
+                },
+                
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
+         
         ],
       ),
     );
@@ -314,7 +324,7 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        InkWell(
+        GestureDetector(
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(10),

@@ -9,12 +9,10 @@ class HadithController extends GetxController {
   final hadithsMap = <int, List<HadithElement>>{}.obs;
 
   Future<void> loadHadiths(int selectedId) async {
-    // Check if already loaded
     if (hadithsMap.containsKey(selectedId)) return;
 
     final combined = [...array1, ...array2];
     final matchingFiles = combined.where((e) => e['id'] == selectedId).toList();
-
     List<HadithElement> allHadiths = [];
 
     for (var file in matchingFiles) {
@@ -27,5 +25,19 @@ class HadithController extends GetxController {
     hadithsMap[selectedId] = allHadiths;
   }
 
+  void preloadAllHadiths() async {
+    final combined = [...array1, ...array2];
+    for (var file in combined) {
+      final id = file['id'];
+      if (!hadithsMap.containsKey(id)) {
+        final String response = await rootBundle.loadString(file['path']);
+        final data = jsonDecode(response);
+        final hadith = Hadith.fromJson(data);
+        hadithsMap[id] = hadith.hadiths;
+      }
+    }
+  }
+
   List<HadithElement> getHadiths(int id) => hadithsMap[id] ?? [];
 }
+

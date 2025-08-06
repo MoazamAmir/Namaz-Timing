@@ -5,7 +5,8 @@ import 'package:namaz_timing/view/home/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Get.put(HadithController());
+    Get.put(HadithController()).preloadAllHadiths();
+
   runApp(const MyApp());
 }
 
