@@ -4,7 +4,7 @@ import 'package:namaz_timing/constant/downloadProgress.dart';
 import 'package:namaz_timing/controller/recitersController.dart';
 import 'package:namaz_timing/view/Voice/DownloadsScreen.dart';
 import 'package:namaz_timing/view/Voice/SuraListScreen.dart';
-import 'package:namaz_timing/view/community.dart';
+import 'package:namaz_timing/view/Community/community.dart';
 
 import '../../Widget/All_widgetscreen.dart';
 

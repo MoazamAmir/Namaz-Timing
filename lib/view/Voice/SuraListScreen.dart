@@ -6,7 +6,7 @@ import 'package:namaz_timing/constant/downloadProgress.dart';
 import 'package:namaz_timing/controller/downloadService_controller.dart';
 import 'package:namaz_timing/models/audioFile_model.dart';
 import 'package:namaz_timing/view/Voice/AudioPlayerScreen.dart';
-import 'package:namaz_timing/view/community.dart';
+import 'package:namaz_timing/view/Community/community.dart';
 
 class SuraListScreen extends StatelessWidget {
   final String reciterName;

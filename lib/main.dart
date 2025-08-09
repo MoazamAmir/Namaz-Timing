@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:namaz_timing/controller/hadith_controller.dart';
-import 'package:namaz_timing/view/home/home_screen.dart';
+import 'package:namaz_timing/view/Auth/loginScreen.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+   
+  );
     Get.put(HadithController()).preloadAllHadiths();
 
   runApp(const MyApp());
@@ -19,7 +23,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home:
-          IslamicHomeScreen(), // This trailing comma makes auto-formatting nicer for build methods.
+          LoginScreen(), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

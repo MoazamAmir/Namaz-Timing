@@ -5,9 +5,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:http/http.dart' as http;
+import 'package:namaz_timing/view/Auth/ProfileScreen.dart';
+import 'package:namaz_timing/view/Community/createPostScreen.dart';
 import 'package:namaz_timing/view/Hadith/select_hadith_screen.dart';
 import 'package:namaz_timing/view/Voice/RecitersScreen.dart';
-import 'package:namaz_timing/view/community.dart';
+import 'package:namaz_timing/view/Community/community.dart';
 import 'package:namaz_timing/view/quran/mosquefinderScreen.dart' show MosqueFinderScreen;
 import 'package:namaz_timing/view/quran/surah_listScreen.dart';
 import 'package:namaz_timing/view/screen.dart';
@@ -132,27 +134,31 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                 // 🔍 Search bar and profile icon
                 Row(
                   children: [
-                    Expanded(
-                      child: Container(
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          children: const [
-                            Icon(Icons.search, color: Colors.grey),
-                            SizedBox(width: 8),
-                            Text('Find', style: TextStyle(color: Colors.grey)),
-                          ],
-                        ),
+                  Text("Namaz Timing", style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),),
+                    // const SizedBox(width: 10),
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
+                        Get.to(ProfileScreen());
+                      },
+                      child:  CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, color: Colors.teal[800]),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.notifications, color: Colors.blue),
+                    SizedBox(width: 5),
+                     InkWell(
+                      onTap: () {
+                        // Get.to(ProfileScreen());
+                      },
+                      child:  CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.notifications, color: Colors.teal[800]),
+                      ),
                     ),
                   ],
                 ),
@@ -281,12 +287,12 @@ class _IslamicHomeScreenState extends State<IslamicHomeScreen> {
                       'Community',
                       "assets/images/home/partners.png",
                       onTap: () {
-          // Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => RecitersScreen(),
-          //           ),
-          // );
+          Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreatePostScreen(),
+                    ),
+          );
                       },
                     ),
                     

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "202958590074",
+    "project_id": "login-ec260",
+    "storage_bucket": "login-ec260.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202958590074:android:82e08fbd63ecc397656bc3",
+        "android_client_info": {
+          "package_name": "com.example.namaz_timing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnr31ZwLDESD1WOI5UI7tgCJ87jTR4KBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:namaz_timing/AllListScreen/sura_name/suran_nameList.dart';
 import 'package:namaz_timing/constant/downloadProgress.dart';
 import 'package:namaz_timing/models/audioFile_model.dart';
-import 'package:namaz_timing/view/community.dart';
+import 'package:namaz_timing/view/Community/community.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 
